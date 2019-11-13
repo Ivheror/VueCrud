@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Web de test Crud Vuejs usando Modales</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="fontawesome/css/all.min.css">
+    <link rel="icon" href="png.png" type="image/x-icon"/>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>    
+</head>
+<body>
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark ">
+                <a class="navbar-brand" href="https://www.github.com/Ivheror">Ivheror</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                  <ul class="navbar-nav">                        
+                    <img src="png.png" alt="" width="80px">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="https://www.github.com/Ivheror">La empresa</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="https://www.github.com/Ivheror">Contacto</a>
+                    </li>    
+                  </ul>
+                </div>  
+                <form class="form-inline" action="#">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Búsqueda ...">
+                    <button class="btn btn-success" type="submit">Buscar</button>
+                  </form>
+              </nav>
+
+              
+    <div class="container text-center">
+        <h1 class="m-5">Probando Vuejs</h1>
+        <br>
+    </div>
+ 
+    <!--Template del modal que vamos a usar como correcto/borrado/actualizado..prox-->
+    <script type="text/x-template" id="modal-template">
+      <div name="modal" class="col-md-12 col-lg-4 rounded">
+        <div class="modal-mask text-center" id="uno">
+          <div class="modal-wrapper">
+            <div class="modal-container m-1">
+              <div class="modal-header text-center border-bottom-0">
+                <slot name="header">
+                  Paciente añadido correctamente 
+                </slot>
+                <span id="cruz" class="btn" @click="$emit('close')"><i class="fa fa-times" aria-hidden="true"></i></span>  
+              </div>  
+            </div>          
+          </div>
+        </div>
+      </div>
+    </script>
+    
+    <!-- Modal -->
+   
+    <div id="appPacientes" class="container">
+
+            <!-- esto controla ambos modales tanto el agregar como el borrado -->
+            <modal v-if="showModal" @close="showModal = false" class="bg-success">
+              <p slot="header" class="text-white"><b>Paciente añadido correctamente</b></p>
+            </modal>
+            <modal v-if="showModalDos" @close="showModalDos = false" class="bg-danger">
+              <p slot="header" class="text-white"><b>Paciente borrado</b></p>
+              </modal>
+            <modal v-if="showModalActualizar" @close="showModalActualizar = false" class="bg-primary">
+              <p slot="header" class="text-white"><b>Paciente Actualizado</b></p>
+            </modal>
+
+        <section class="form">
+            <form action="" class="text-center" >
+                <p v-if="errors.length" class="text-left">
+                      <p class="text-danger text-left" v-for="error in errors"><b>*{{ error }}</b></p>
+                  </p>
+                <input v-model="nombre" @keyup.enter="crearPaciente" type="text" class="form-control" placeholder="Nombre" >
+                <input v-model="edad" @keyup.enter="crearPaciente" type="number" name="edad" placeholder="Edad" class="form-control"><br>
+                <input @click="checkForm(); crearPaciente();" type="button" value="Añadir" class="btn btn-success" >
+                  <!--en este boton primero llama a la function checkform para validar el formulario y si todo esta bien, hace el crearPaciente-->
+              </form>
+        </section>
+            <caption>Pacientes</caption>
+            <table class="table text-center">
+                <thead>
+                    <tr>
+                        <th scope="col">id</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Edad</th>
+                        <th scope="col">Acciones</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(paciente, index) in pacientes">
+                        <td>{{ paciente.id }}</td>
+                        <td>
+                            <span v-if="formActualizar && idActualizar == index">
+                                <input v-model="nombreActualizar" type="text" class="form-control">
+                            </span>
+                            <span v-else>
+                                {{ paciente.nombre }}
+                            </span>
+                        </td>
+                        <td>
+                            <span v-if="formActualizar && idActualizar == index">
+                                <input v-model="edadActualizar" type="text" class="form-control">
+                            </span>
+                            <span v-else>
+                                {{ paciente.edad }}
+                            </span>
+                        </td>
+                        <td>
+                            <span v-if="formActualizar && idActualizar == index">
+                                <button @click="guardarActualizacion(index)" class="btn btn-success">Guardar</button>
+                            </span>
+                            <span v-else>
+                                <button @click="verFormActualizar(index)" class="btn btn-warning">Actualizar</button>
+                                <button @click="borrarPaciente(index)" class="btn btn-danger">Borrar</button>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+   <!--footer final-->
+    <div class='main'></div>
+    <footer class="footer">
+    <div class="container text-white">
+        <br>
+        <div class="row">
+        <div class="col-md-6">
+            <h4>Ivheror</h4>
+            <img src="png.png" alt="" width="200px">
+
+          </div>
+
+        <div class="col-md-2">
+            <h4 id="contacto">Contacto</h4>
+            <p>Torre Sevilla</p>
+            <p>Equipo de Solution para Cliente</p>
+        </div>
+        <div class="col-md-3">
+                <h4 id="contacto">Dirección</h4>
+                <p>Americo Vespucio</p>
+                <p>Edificio 5.3</p>
+                <p>mail: ivheror</p>
+                
+            </div>
+        <div class="col-md-1">
+                <h4 id="contacto">Sitios</h4>
+                <a href="www.everis.com">Everis</a>
+                <a href="www.github.com">Github</a>
+                <a href="www.facebook.com">Facebook</a>
+                <a href="www.twitter.com">Twitter</a>
+                <a href="#">Política</a>
+                <a href="#">Normas</a>
+            </div>
+        <div class="col-md-3 text-center">
+            <p>Ivan Hernando Ortega - Developer</p>
+        </div>
+        <div class="col-md-12 text-center">
+          <p>Copyright 2019 - Everis.Test.Ivan</p>
+        </div>
+        </div>
+    </div>
+    </footer>
+    <script src="codigo.js"></script> 
+</body>
+</html>
+
+

@@ -1,0 +1,25 @@
+   body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+}
+h1{
+  font-family: Arial;
+}
+.footer {
+  background-image: url("https://i.stack.imgur.com/AZ2Xw.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 300px;
+}
+#cruz{color:white}
+#cruz:hover{background-color:rgba(231, 241, 236, 0.336)};
+
+.modal-header{border-bottom:0};
+.table th{font-family: monospace;};
+#uno{border-radius: 3px;border-bottom:0}
