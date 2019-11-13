@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     showModal: false,
                     showModalDos:false,
                     showModalActualizar: false,
+                    showModalDuplicado: false,
                     errors:[], //esto para validaciones
                 },
 
@@ -30,9 +31,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             }                               
                         }
                         if(encontrado){
-                            alert("Paciente duplicado")
-                            //meter aqui quizás otro modal que nos avise de que el cliente esta duplicado
-                            //en lugar del alert, pero eso ya mas tarde que no quiero ahora  :)
+                            this.showModalDuplicado = true;
+                            this.showModal =false;
+                            this.showModalDos=false;
+                            this.showModalActualizar=false;
                         }else{
                             let idLast = this.pacientes.length+1;
                             this.pacientes.push({id:idLast,nombre:this.nombre, edad: this.edad})
@@ -42,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             this.showModal=true;
                             this.showModalDos=false;
                             this.showModalActualizar=false;
+                            this.showModalDuplicado = false;
                         }   
                         
                     },
@@ -59,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         this.showModal = false;
                         this.showModalDos = false;
                         this.showModalActualizar =true;
+                        this.showModalDuplicado = false;
                     },
                     borrarPaciente: function(id){
                         this.pacientes.splice(id,1);
@@ -68,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         this.showModalDos=true;
                         this.showModal =false;
                         this.showModalActualizar=false;
+                        this.showModalDuplicado = false;
                     },
                     checkForm: function(e){
                         this.errors = [];

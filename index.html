@@ -60,7 +60,6 @@
         </div>
       </div>
     </script>
-    
     <!-- Modal -->
    
     <div id="appPacientes" class="container">
@@ -74,6 +73,9 @@
               </modal>
             <modal v-if="showModalActualizar" @close="showModalActualizar = false" class="bg-primary">
               <p slot="header" class="text-white"><b>Paciente Actualizado</b></p>
+            </modal>
+            <modal v-if="showModalDuplicado" @close="showModalDuplicado = false" class="bg-warning">
+              <p slot="header" class="text-white"><b>Paciente duplicado</b></p>
             </modal>
 
         <section class="form">
