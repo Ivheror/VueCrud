@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     
         Vue.component('modal', {
-            template: '#modal-template'
+            template: '#modal-template' //creamos el componente que nos servirá para lanzar los modales
         })
       
 
@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     edad: null,
                     formActualizar: false,
                     idActualizar: -1,
-                    idPorElQueVoy:0,
+                    //idPorElQueVoy:0,
                     nombreActualizar: '',
                     edadActualizar: '',
-                    pacientes: [],
+                    pacientes: [{id:1,nombre:"Pepe", edad: 55},{id:2,nombre:"Sara", edad: 42},{id:3,nombre:"Ivan", edad: 26}],
                     showModal: false,
                     showModalDos:false,
                     showModalActualizar: false,
@@ -36,8 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             //en lugar del alert, pero eso ya mas tarde que no quiero ahora  :)
                         }else{
                             //console.log(this.edad)
-                            this.pacientes.push({id:this.idPorElQueVoy+1,nombre:this.nombre, edad: this.edad})
-                            this.idPorElQueVoy++; //sin esto siempre sacaría el id 1
+                            let idLast = this.pacientes.length+1;
+                            this.pacientes.push({id:idLast,nombre:this.nombre, edad: this.edad})
+                            this.idLast++; //sin esto siempre sacaría el id 1
                             this.nombre='';
                             this.edad='';
                             this.showModal=true;
