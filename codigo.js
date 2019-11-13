@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     edad: null,
                     formActualizar: false,
                     idActualizar: -1,
-                    //idPorElQueVoy:0,
                     nombreActualizar: '',
                     edadActualizar: '',
                     pacientes: [{id:1,nombre:"Pepe", edad: 55},{id:2,nombre:"Sara", edad: 42},{id:3,nombre:"Ivan", edad: 26}],
@@ -35,10 +34,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             //meter aqui quizás otro modal que nos avise de que el cliente esta duplicado
                             //en lugar del alert, pero eso ya mas tarde que no quiero ahora  :)
                         }else{
-                            //console.log(this.edad)
                             let idLast = this.pacientes.length+1;
                             this.pacientes.push({id:idLast,nombre:this.nombre, edad: this.edad})
-                            this.idLast++; //sin esto siempre sacaría el id 1
+                            this.idLast++; 
                             this.nombre='';
                             this.edad='';
                             this.showModal=true;
@@ -65,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     borrarPaciente: function(id){
                         this.pacientes.splice(id,1);
                         if(this.pacientes.length == 0){
-                            this.idPorElQueVoy = 0;  // esto me borra los ids en el que caso de que no haya ninguno en el array
+                            this.idLast = 0;  // esto me borra los ids en el que caso de que no haya ninguno en el array
                         }
                         this.showModalDos=true;
                         this.showModal =false;
